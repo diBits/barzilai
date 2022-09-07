@@ -1,26 +1,33 @@
 
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import NotificationButton from '../NotificationButton'
-import './styles.css'
+import NotificationButton from '../NotificationButton';
+import './styles.css';
 
 function SalesCard() {
+    /*Funçao para monstar uma data de 10 dias atras */
+    const [minDate, setMinDate] = useState(new Date(new Date().setDate(new Date().getDate() - 10)));
+    const [maxDate, setMaxDate] = useState(new Date());
+
+
     return (
         <div className="barzilai-card">
             <h2 className="barzilai-sales-title">Vendas</h2>
             <div>
                 <div className="barzilai-form-control-container">
                     <DatePicker
-                        selected={new Date()}
-                        onChange={(date: Date) => { }}
+                    /*busca a const data e troca pela data selecionada */
+                        selected={minDate}
+                        onChange={(date: Date) => setMinDate(date)}
                         className="barzilai-form-control"
                         dateFormat="dd/MM/yyyy"
                     />
                 </div>
                 <div className="barzilai-form-control-container">
                     <DatePicker
-                        selected={new Date()}
-                        onChange={(date: Date) => { }}
+                        selected={maxDate}
+                        onChange={(date: Date) => setMaxDate(date)}
                         className="barzilai-form-control"
                         dateFormat="dd/MM/yyyy"
                     />
@@ -87,4 +94,4 @@ function SalesCard() {
     )
 }
 
-export default SalesCard
+export default SalesCard;
