@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Sale } from "../../models/sale";
+import { BASE_URL } from "../../utils/request";
 import NotificationButton from '../NotificationButton';
 import './styles.css';
 
@@ -11,12 +13,13 @@ function SalesCard() {
     const [minDate, setMinDate] = useState(new Date(new Date().setDate(new Date().getDate() - 10)));
     const [maxDate, setMaxDate] = useState(new Date());
 
+    const [sales, setSales] = useState<Sale[]>([]);
 
     useEffect(() => {
 
-        axios.get("http://localhost:8080/sales")
+        axios.get(`${BASE_URL}/sales`)
             .then(response => {
-                console.log(response.data)
+                setSales(response.data.content)
             })
 
     }, [])
@@ -27,7 +30,7 @@ function SalesCard() {
             <div>
                 <div className="barzilai-form-control-container">
                     <DatePicker
-                    /*busca a const data e troca pela data selecionada */
+                        /*busca a const data e troca pela data selecionada */
                         selected={minDate}
                         onChange={(date: Date) => setMinDate(date)}
                         className="barzilai-form-control"
@@ -57,45 +60,23 @@ function SalesCard() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th className="show992">#341</th>
-                            <td className="show576">13/08/1986</td>
-                            <td>Anakin</td>
-                            <th className="show992">15</th>
-                            <th className="show992">11</th>
-                            <td>R$ 55300.00</td>
-                            <td>
-                                <div className="barzilai-red-btn-container">
-                                    <NotificationButton />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th className="show992">#341</th>
-                            <td className="show576">13/08/1986</td>
-                            <td>Anakin</td>
-                            <th className="show992">15</th>
-                            <th className="show992">11</th>
-                            <td>R$ 55300.00</td>
-                            <td>
-                                <div className="barzilai-red-btn-container">
-                                    <NotificationButton />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th className="show992">#341</th>
-                            <td className="show576">13/08/1986</td>
-                            <td>Anakin</td>
-                            <th className="show992">15</th>
-                            <th className="show992">11</th>
-                            <td>R$ 55300.00</td>
-                            <td>
-                                <div className="barzilai-red-btn-container">
-                                    <NotificationButton />
-                                </div>
-                            </td>
-                        </tr>
+                        {sales.map(sale => {
+                            return (
+                                <tr key={sale.id}>
+                                    <td className="show992">{sale.id}</td>
+                                    <td className="show576">{new Date(sale.date).toLocaleDateString()}</td>
+                                    <td>{sale.sellerName}</td>
+                                    <td className="show992">{sale.visited}</td>
+                                    <td className="show992">{sale.deals}</td>
+                                    <td>R$ {sale.amount.toFixed(2)}</td>
+                                    <td>
+                                        <div className="barzilai-red-btn-container">
+                                            <NotificationButton />
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
             </div>
