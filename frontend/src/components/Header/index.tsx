@@ -8,7 +8,7 @@ function Header() {
                 <img src={logo} alt="Logo do Barzilai"/>
                     <h1>Barzilai</h1>
                     <p>Desenvolvido por
-                        <a href="https://www.instagram.com/di.yauh/">@barzilai</a>
+                        <a href="https://www.instagram.com/di.yauh/"> @barzilai</a>
                     </p>
             </div>
         </header>
